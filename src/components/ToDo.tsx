@@ -6,8 +6,8 @@ const ToDo = () => {
   // we can reset the input field value by using useRef
   // but the easiset way would be to set the value prop of inout field to the useState variable value
   // const inputTaskRef = useRef<HTMLInputElement>(null);
-  const [text, setText] = useState('');
-  const [tasks, setTasks] = useState([{ id: 1, description: "Sample Task 1" }]);
+  const [inputTask, setInputTask] = useState('');
+  const [taskList, setTaskList] = useState([{ id: 1, description: "Sample Task 1" }]);
 
 
 
@@ -21,11 +21,11 @@ const ToDo = () => {
               id="text"
               type="text"
               // ref={inputTaskRef}
-              value={text}
+              value={inputTask}
               className="col form-control"
               placeholder="Enter a task"
               onChange={(event) => {
-                setText(event.target.value);
+                setInputTask(event.target.value);
               }}
             />
           </div>
@@ -33,12 +33,12 @@ const ToDo = () => {
             <button
               className="btn btn-primary"
               onClick={() => {
-                if (text !== "") {
-                  setTasks([
-                    ...tasks,
-                    { id: tasks.length + 1, description: text },
+                if (inputTask !== "") {
+                  setTaskList([
+                    ...taskList,
+                    { id: taskList.length + 1, description: inputTask },
                   ]);
-                  setText('');
+                  setInputTask('');
                   // if (inputTaskRef.current !== null) {
                   //   inputTaskRef.current.value = '';
                   // }
@@ -53,7 +53,7 @@ const ToDo = () => {
       </div>
       <h3>List</h3>
       <ul className="list-group">
-        {tasks.map((item) => (
+        {taskList.map((item) => (
           <li className="list-group-item" id={item.id.toString()} key={item.id}>
             {item.description}{" "}
             <button
@@ -63,7 +63,7 @@ const ToDo = () => {
                 "--bs-btn-padding-x": "8px",
                 "--bs-btn-padding-y": "5px",
               }}
-              onClick={() => setTasks(tasks.filter((e) => e.id !== item.id))}
+              onClick={() => setTaskList(taskList.filter((e) => e.id !== item.id))}
             >
               <MdDelete size={20} />
             </button>
