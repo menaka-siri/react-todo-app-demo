@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [text, setText] = useState('');
+  const [tasks, setTasks] = useState([{ id: 1, description: "Sample Task 1" }]);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+        <div className="mb-3">
+          <label htmlFor="text" className="form-label">Enter a task</label>
+          <input
+            id="text"
+            type="text"
+            className="form-control"
+            onBlur={(event) => {
+              setText(event.target.value);
+              console.log(text);
+            }}
+          />
+          <button
+            className="btn btn-primary"
+            onClick={(event) => {
+              if (text !== "") {
+                setTasks([
+                  ...tasks,
+                  { id: tasks.length + 1, description: text },
+                ]);
+                setText('');
+              }
+            }}
+          >
+            Add
+          </button>
+        </div>
+      <h3>List</h3>
+      <ul className="list-group">
+        {tasks.map((item) => (
+          <li className="list-group-item" id={item.id.toString()} key={item.id}>
+            {item.description}{" "}
+            <button
+              className="btn btn-danger"
+              onClick={() => setTasks(tasks.filter((e) => e.id !== item.id))}
+            >
+              X
+            </button>
+          </li>
+        ))}
+      </ul>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
